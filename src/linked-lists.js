@@ -9,13 +9,8 @@ function LinkedList() {
 }
 LinkedList.prototype.insert = insert;
 LinkedList.prototype.remove = remove;
-LinkedList.prototype.contains = contains;
-LinkedList.prototype.getFirstInstanceOfNode = getFirstInstanceOfNode;
-
-function LinkedListNode(v, next = null) {
-  this.val = v;
-  this.next = next;
-}
+LinkedList.prototype.search = search;
+LinkedList.prototype.get = get;
 
 //**********************************
 function insert(v) {
@@ -38,31 +33,38 @@ function insert(v) {
   }
 }
 
-function remove() {
-  if (this.head === null) {
-    return null;
-  } else {
-    return recurse(this.storage[this.head]);
-  }
-  //**************
-  var prevNode;
-  function recurse(node) {
-    if (node.next === null) {
-      // then this is our node
-      if (!prevNode) {
-        // then this is a list with only one node
-        //
-        node.next = null;
-      } else {
-        prevNode = node;
-        recurse(node.next);
-      }
-    }
-  }
+function remove(node) {
+  /**
+   * pass in the node that contains target node as it's next property, so
+   * remove can delete the node and correct the pointers
+   *
+   * {
+   *   val: "dont delete me",
+   *   next: {
+   *     val: "delete me",
+   *     ...
+   *   }
+   * }
+   */
+
+  var next = { ...node.next.next };
+  var output = { val: node.next.val, next: null };
+  delete node.next;
+  console.log("node");
+  console.log(node);
+  console.log("this.storage");
+  console.log(this._storage[node]);
+  node.next = { ...next };
+  return output;
 }
 
-function contains(v, r) {
+function search(v, r) {
+  /**
+   *
+   */
   return recurse(this._storage[this.head]);
+
+  //******
   function recurse(node) {
     if (node.val === v) {
       return true;
@@ -72,10 +74,15 @@ function contains(v, r) {
   }
 }
 
-function getFirstInstanceOfNode(v) {
+function get(v) {
+  /**
+   *
+   */
   return recurse(this._storage[this.head]);
+
+  //******
   function recurse(node) {
-    if (node.val === v) {
+    if (node.next.val === v) {
       return node;
     } else if (node.next !== null) {
       return recurse(node.next);

@@ -69,9 +69,10 @@ test("remove method - takes in a reference to a node, removes it from the linked
   ll.insert("beee");
   ll.insert("ceee3");
 
-  var node = ll.contains("beee");
+  var node = ll.get("beee");
 
   expect(ll.remove(node)).toEqual({ val: "beee", next: null });
+  // console.log(ll._storage);
   expect(ll._storage).toEqual({
     0: {
       val: "aaaah",
@@ -87,7 +88,7 @@ test("remove method - takes in a reference to a node, removes it from the linked
   });
 
   expect(ll.head).toEqual(0);
-  expect(ll.tail).toEqual(0);
+  expect(ll.tail).toEqual(2);
 });
 
 test("remove method takes in a value, searches the linked list for the value, and if it's there, remove and return it", () => {
@@ -95,12 +96,15 @@ test("remove method takes in a value, searches the linked list for the value, an
 
   ll.insert("aaaah");
   ll.insert("beee");
+  ll.insert("ceeeee");
+  var node = ll.get("beee");
 
-  expect(ll.remove()).toEqual({ val: "beee", next: null });
+  expect(ll.remove(node)).toEqual({ val: "beee", next: null });
+  console.log(ll._storage);
   expect(ll._storage).toEqual({
     0: {
       val: "aaaah",
-      next: null,
+      next: { val: "ceeeee", next: null },
     },
   });
 
@@ -108,7 +112,7 @@ test("remove method takes in a value, searches the linked list for the value, an
   expect(ll.tail).toEqual(0);
 });
 
-test("removeTail method removes the last node in the linked list", () => {
+xtest("removeTail method removes the last node in the linked list", () => {
   var ll = new LinkedList();
 
   ll.insert("aaaah");
@@ -157,21 +161,24 @@ test("contains(value) returns true if there is a node in the list with a value p
   expect(ll.contains("daaah")).toEqual(true);
 });
 
-test("getFirstInstanceOfNode(value) returns the node's val if there is a node in the list with a value property equal to the argument value, false if there isn't", () => {
+test("get(value) returns the node's val if there is a node in the list with a value property equal to the argument value, false if there isn't", () => {
   var ll = new LinkedList();
   ll.insert("aaaah");
   ll.insert("baaah");
   ll.insert("caaah");
   ll.insert("daaah");
 
-  expect(ll.getFirstInstanceOfNode("baaah")).toEqual({
-    val: "baaah",
-    next: { val: "caaah", next: { val: "daaah", next: null } },
+  expect(ll.get("baaah")).toEqual({
+    val: "aaaah",
+    next: {
+      val: "baaah",
+      next: { val: "caaah", next: { val: "daaah", next: null } },
+    },
   });
 
-  expect(ll.getFirstInstanceOfNode("caaah")).toEqual({
-    val: "caaah",
-    next: { val: "daaah", next: null },
+  expect(ll.get("caaah")).toEqual({
+    val: "baaah",
+    next: { val: "caaah", next: { val: "daaah", next: null } },
   });
 });
 test("isHead takes in a reference to a node and checks if it's the head of the linked list`", () => {});
