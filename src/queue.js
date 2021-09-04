@@ -7,8 +7,10 @@ function Queue() {
   this.front = null;
   this.back = null;
 }
+Queue.prototype.enqueue = enqueue;
+Queue.prototype.dequeue = dequeue;
 
-Queue.prototype.enqueue = function enqueue(v) {
+function enqueue(v) {
   if (this.front === null) {
     (this.front = 0), (this.back = 0);
     this._storage[this.back] = v;
@@ -16,9 +18,9 @@ Queue.prototype.enqueue = function enqueue(v) {
     this.back++;
     this._storage[this.back] = v;
   }
-};
+}
 
-Queue.prototype.dequeue = function dequeue() {
+function dequeue() {
   if (this.front === null && this.back === null) {
     return null;
   }
@@ -37,4 +39,4 @@ Queue.prototype.dequeue = function dequeue() {
   }
 
   return dequeuedEl;
-};
+}
